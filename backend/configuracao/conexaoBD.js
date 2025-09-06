@@ -9,7 +9,7 @@ const pool = new Pool({
     port: 5432
 });
 
-// Tentativa de conexão e retorno
+// Tentativa de conexão/retorno
 pool.connect()
     .then(() => console.log('Conexão com PostgreSQL'))
     .catch(err => console.error('Erro ao conectar no PostgreSQL:', err));
