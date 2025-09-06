@@ -3,15 +3,15 @@ const router = express.Router();
 const usuarioControlador = require('../controladores/ingredienteControlador');
 
 // Cadastro de ingrediente
-router.post('/', ingredienteControlador.cadastrar);
+router.post('/', ingredienteControlador.cadastrarIngrediente);
 
 // Busca de ingrediente
-router.get('/', ingredienteControlador.buscar);
+router.get('/', ingredienteControlador.buscarIngrediente);
 
 // Editar ingrediente
-router.put('/:id', ingredienteControlador.editar);
+router.put('/:id', ingredienteControlador.editarIngrediente);
 
 // Deletar ingrediente
-router.delete('/:id', ingredienteControlador.deletar);
+router.delete('/:id', ingredienteControlador.deletarIngrediente);
 
 module.exports = router;
