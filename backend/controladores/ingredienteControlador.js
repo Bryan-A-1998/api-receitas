@@ -10,7 +10,7 @@ async function cadastrarIngrediente(req, res) {
       return res.status(400).json({ mensagem: "Nome é obrigatórios" });
     }
 
-    const ingredienteExistente = await ingredienteRepositorio.buscarIngredientes(nome);
+    const ingredienteExistente = await ingredienteRepositorio.buscarIngredientePorNome(nome);
     if (ingredienteExistente) {
       return res.status(400).json({ mensagem: "Ingrediente já cadastrado" });
     }
