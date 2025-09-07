@@ -23,35 +23,124 @@ async function cadastrarReceita(usuarioId, titulo, descricao, ingredientes = [])
   return receita;
 }
 
-// Buscar todas as receitas (sem os ingredientes por enquanto)
+// Buscar todas as receitas
 async function buscarReceitas() {
-  const resultado = await db.query("SELECT * FROM receitas");
-  return resultado.rows;
+  const resultado = await db.query(`
+    SELECT
+      r.id AS receita_id,
+      r.usuario_id,
+      r.titulo,
+      r.descricao,
+      i.nome AS ingrediente_nome,
+      ri.quantidade,
+      ri.unidade
+    FROM receitas r
+    LEFT JOIN receita_ingredientes ri ON r.id = ri.receita_id
+    LEFT JOIN ingredientes i ON ri.ingrediente_id = i.id
+    ORDER BY r.id;
+  `);
+
+  const receitasMap = new Map();
+
+  for (const row of resultado.rows) {
+    const receitaId = row.receita_id;
+
+    if (!receitasMap.has(receitaId)) {
+      receitasMap.set(receitaId, {
+        id: receitaId,
+        usuario_id: row.usuario_id,
+        titulo: row.titulo,
+        descricao: row.descricao,
+        ingredientes: [],
+      });
+    }
+
+    if (row.ingrediente_nome) {
+      receitasMap.get(receitaId).ingredientes.push({
+        nome: row.ingrediente_nome,
+        quantidade: row.quantidade,
+        unidade: row.unidade,
+      });
+    }
+  }
+
+  return Array.from(receitasMap.values());
 }
 
-// Buscar receitas compatíveis com base nos ingredientes
-async function buscarReceitaCompativel(ingredientesIds = []) {
-  if (ingredientesIds.length === 0) return [];
+// Função auxiliar para verificar ingredientes
+async function buscarReceitasComIngredientes(receitaIds) {
+  if (!receitaIds.length) return [];
 
-  // Receitas que tem todos os ingredientes fornecidos
-  const receitasTodosQuery = await db.query(
+  const query = `
+    SELECT 
+      r.id AS receita_id,
+      r.usuario_id,
+      r.titulo,
+      r.descricao,
+      i.nome AS ingrediente_nome,
+      ri.quantidade,
+      ri.unidade
+    FROM receitas r
+    JOIN receita_ingredientes ri ON r.id = ri.receita_id
+    JOIN ingredientes i ON i.id = ri.ingrediente_id
+    WHERE r.id = ANY($1)
+    ORDER BY r.id
+  `;
+
+  const { rows } = await db.query(query, [receitaIds]);
+
+  const receitasMapeadas = {};
+
+  for (const row of rows) {
+    const id = row.receita_id;
+
+    if (!receitasMapeadas[id]) {
+      receitasMapeadas[id] = {
+        id,
+        usuario_id: row.usuario_id,
+        titulo: row.titulo,
+        descricao: row.descricao,
+        ingredientes: []
+      };
+    }
+
+    receitasMapeadas[id].ingredientes.push({
+      nome: row.ingrediente_nome,
+      quantidade: row.quantidade,
+      unidade: row.unidade
+    });
+  }
+
+  return Object.values(receitasMapeadas);
+}
+
+// FUNCIONALIDADE Busca por receitas compativeis ou parciais
+async function buscarReceitaCompativel(ingredientesIds = []) {
+  if (ingredientesIds.length === 0) return { completas: [], parciais: [] };
+
+  // Buscar receitas COMPLETAS (exatamente os ingredientes buscados)
+  const completasQuery = await db.query(
     `
-    SELECT r.*
+    SELECT r.id
     FROM receitas r
     JOIN receita_ingredientes ri ON r.id = ri.receita_id
     WHERE ri.ingrediente_id = ANY($1)
     GROUP BY r.id
-    HAVING COUNT(DISTINCT ri.ingrediente_id) = $2
+    HAVING 
+      COUNT(DISTINCT ri.ingrediente_id) = $2
+      AND (
+        SELECT COUNT(*) FROM receita_ingredientes WHERE receita_id = r.id
+      ) = $2
     `,
     [ingredientesIds, ingredientesIds.length]
   );
 
-  const receitasComTodos = receitasTodosQuery.rows;
+  const completasIds = completasQuery.rows.map(r => r.id);
 
-  // Receitas que tem pelo menos um ingrediente
-  const receitasParciaisQuery = await db.query(
+  // Buscar receitas PARCIAIS (tem pelo menos 1 ingrediente, mas não são completas)
+  const parciaisQuery = await db.query(
     `
-    SELECT DISTINCT r.*
+    SELECT DISTINCT r.id
     FROM receitas r
     JOIN receita_ingredientes ri ON r.id = ri.receita_id
     WHERE ri.ingrediente_id = ANY($1)
@@ -59,11 +148,13 @@ async function buscarReceitaCompativel(ingredientesIds = []) {
     [ingredientesIds]
   );
 
-  const receitasParciais = receitasParciaisQuery.rows;
+  const parciaisIds = parciaisQuery.rows
+    .map(r => r.id)
+    .filter(id => !completasIds.includes(id));
 
   return {
-    completas: receitasComTodos,
-    parciais: receitasParciais
+    completas: completasIds,
+    parciais: parciaisIds
   };
 }
 
@@ -82,4 +173,4 @@ async function deletarReceita(id) {
   return resultado.rowCount > 0;
 }
 
-module.exports = { cadastrarReceita, buscarReceitas, buscarReceitaCompativel, editarReceita, deletarReceita };
+module.exports = { cadastrarReceita, buscarReceitas, buscarReceitasComIngredientes, buscarReceitaCompativel, editarReceita, deletarReceita };
