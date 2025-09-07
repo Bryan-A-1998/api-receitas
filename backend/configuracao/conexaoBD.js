@@ -2,9 +2,9 @@ const { Pool } = require('pg');
 
 // Configuração
 const pool = new Pool({
-    user: 'usuario_teste',          
+    user: 'usuario_teste',
     host: 'localhost',
-    database: 'receitas_db',  
+    database: 'receitas_db',
     password: 'admin123testes',
     port: 5432
 });

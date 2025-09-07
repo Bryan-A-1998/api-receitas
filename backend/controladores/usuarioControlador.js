@@ -17,13 +17,14 @@ async function cadastrar(req, res) {
 
     const usuarioCadastrado = await usuarioRepositorio.cadastrar(nome, email, senha);
 
-    res.status(201).json({ mensagem: "Usuário cadastrado com sucesso", 
+    res.status(201).json({
+      mensagem: "Usuário cadastrado com sucesso",
       usuario: {
         id: usuarioCadastrado.id,
         nome: usuarioCadastrado.nome,
         email: usuarioCadastrado.email
       }
-     });
+    });
   } catch (erro) {
     console.error("Erro no cadastro:", erro);
     res.status(500).json({ mensagem: "Erro ao cadastrar usuário" });
@@ -45,13 +46,14 @@ async function login(req, res) {
       return res.status(401).json({ mensagem: "Senha incorreta, não foi possivel efetuar login" });
     }
 
-    res.status(200).json({ mensagem: "Login realizado com sucesso", 
+    res.status(200).json({
+      mensagem: "Login realizado com sucesso",
       usuario: {
         id: usuario.id,
         nome: usuario.nome,
         email: usuario.email
       }
-     });
+    });
   } catch (erro) {
     console.error("Erro no login:", erro);
     res.status(500).json({ mensagem: "Erro ao realizar login" });
@@ -70,13 +72,14 @@ async function editar(req, res) {
       return res.status(404).json({ mensagem: "Usuário não encontrado" });
     }
 
-    res.status(200).json({ mensagem: "Usuário atualizado com sucesso",
+    res.status(200).json({
+      mensagem: "Usuário atualizado com sucesso",
       usuario: {
         id: usuarioAtualizado.id,
         nome: usuarioAtualizado.nome,
         email: usuarioAtualizado.email
       }
-     });
+    });
   } catch (erro) {
     console.error("Erro ao editar usuário:", erro);
     res.status(500).json({ mensagem: "Erro ao editar usuário" });
@@ -101,4 +104,21 @@ async function deletar(req, res) {
   }
 }
 
-module.exports = { cadastrar, login, editar, deletar };
+// Listar usuarios
+async function listar(req, res) {
+  try{
+    const listaUsuarios = await usuarioRepositorio.listarUsuarios();
+
+    if(!listaUsuarios) {
+      return res.status(404).json({mensagem : "Usuarios não encontrados"});
+    }
+
+    return res.status(200).json({ mensagem: "Lista de usuarios", listaUsuarios })
+  }catch (erro) {
+    console.error("Erro ao listar usuarios:", erro);
+    res.status(500).json({ mensagem: "Erro ao listar usuarios"})
+  }
+  
+}
+
+module.exports = { cadastrar, login, listar, editar, deletar };

@@ -27,21 +27,21 @@ async function cadastrarReceita(req, res) {
 }
 
 // Buscar receitas
-async function buscarReceitas(req,res) {
+async function buscarReceitas(req, res) {
   try {
     const listaReceitas = await receitaRepositorio.buscarReceitas();
 
     if (!listaReceitas || listaReceitas.length === 0) {
-      return res.status(404).json({ mensagem: "Receitas não encontrados"})
+      return res.status(404).json({ mensagem: "Receitas não encontrados" })
     }
 
-    res.status(200).json({ mensagem: "Receitas encontrados", listaReceitas});
+    res.status(200).json({ mensagem: "Receitas encontrados", listaReceitas });
 
-  } catch (erro){
+  } catch (erro) {
     console.error("Erro ao buscar receitas:", erro);
     res.status(500).json({ mensagem: "Erro ao buscar receitas" });
   }
-  
+
 }
 
 // Busca receita por ingrediente e diz se ta completa ou parcial de acordo com os ingredientes
@@ -63,7 +63,7 @@ async function buscarReceitaCompativel(req, res) {
     const parciaisDetalhadas = await receitaRepositorio.buscarReceitasComIngredientes(resultado.parciais);
 
     return res.status(200).json({
-      mensagem: "Receitas compatíveis encontradas",
+      mensagem: "Receitas com ingredientes compatíveis encontradas",
       receitas_completas: completasDetalhadas,
       receitas_parciais: parciaisDetalhadas
     });
@@ -77,7 +77,7 @@ async function buscarReceitaCompativel(req, res) {
 // Editar receita (titulo e descricao)
 async function editarReceita(req, res) {
   try {
-    const {id} =req.params;
+    const { id } = req.params;
     const { titulo, descricao } = req.body;
 
     const receitaAtualizada = await receitaRepositorio.editarReceita(id, titulo, descricao);
@@ -86,8 +86,8 @@ async function editarReceita(req, res) {
       return res.status(404).json({ mensagem: "receita não encontrado" });
     }
 
-    res.status(200).json({ 
-      mensagem: "receita atualizado com sucesso", 
+    res.status(200).json({
+      mensagem: "receita atualizado com sucesso",
       receita: receitaAtualizada
     });
   } catch (erro) {

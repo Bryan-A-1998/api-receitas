@@ -11,13 +11,21 @@ async function cadastrar(nome, email, senha) {
   return new Usuario(row.id, row.nome, row.email, row.senha);
 }
 
+// Buscar usuários
+async function listarUsuarios() {
+  const resultado = await db.query(
+    "SELECT * FROM usuarios"
+  );
+  return resultado.rows.map(row => new Usuario(row.id, row.nome, row.email));
+}
+
 // Buscar usuário por email
 async function buscarPorEmail(email) {
   const resultado = await db.query(
     "SELECT * FROM usuarios WHERE email = $1",
     [email]
   );
-  const row = resultado.rows[0] 
+  const row = resultado.rows[0]
   return row ? new Usuario(row.id, row.nome, row.email, row.senha) : null;
 }
 
@@ -27,7 +35,7 @@ async function editar(id, nome, senha) {
     "UPDATE usuarios SET nome = $1, senha = $2 WHERE id = $3 RETURNING id, nome, email, senha",
     [nome, senha, id]
   );
-  const row = resultado.rows[0] 
+  const row = resultado.rows[0]
   return row ? new Usuario(row.id, row.nome, row.email, row.senha) : null;
 }
 
@@ -37,7 +45,7 @@ async function deletar(id) {
     "DELETE FROM usuarios WHERE id = $1",
     [id]
   );
-  return resultado.rowCount > 0; 
+  return resultado.rowCount > 0;
 }
 
-module.exports = { cadastrar, buscarPorEmail, editar, deletar };
+module.exports = { cadastrar, listarUsuarios, buscarPorEmail, editar, deletar };

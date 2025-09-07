@@ -14,6 +14,7 @@ router.put('/:id', usuarioControlador.editar);
 // Deletar usuário
 router.delete('/:id', usuarioControlador.deletar);
 
-// nao tem busca de usuarios no momento
+// Listar usuarios
+router.get('/', usuarioControlador.listar);
 
 module.exports = router;

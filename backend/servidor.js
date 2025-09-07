@@ -10,19 +10,19 @@ const ingredienteRotas = require('./rotas/ingredienteRotas');
 const receitaRotas = require('./rotas/receitaRotas');
 
 //rotas
-    //rota teste servidor
+//rota teste servidor
 app.get('/api', (req, res) => {
     res.send('API de Receitas funcionando!');
 });
 
-    //rotas usuario
-app.use('/api/usuarios',usuarioRotas);
-    
-    //rotas ingrediente
-app.use('/api/ingredientes',ingredienteRotas);
+//rotas usuario
+app.use('/api/usuarios', usuarioRotas);
 
-    //rotas receita
-app.use('/api/receitas',receitaRotas);
+//rotas ingrediente
+app.use('/api/ingredientes', ingredienteRotas);
+
+//rotas receita
+app.use('/api/receitas', receitaRotas);
 
 const PORTA = 7000;
 app.listen(PORTA, () => console.log(`Servidor rodando na porta ${PORTA}`));
