@@ -50,7 +50,9 @@ async function buscarIngredientes(req,res) {
 // Editar ingrediente
 async function editarIngrediente(req, res) {
   try {
-    const { id, nome } = req.body;
+    
+    const { id } = req.params;
+    const { nome } = req.body;
 
     const ingredienteAtualizado = await ingredienteRepositorio.editarIngrediente(id, nome);
 
