@@ -44,6 +44,7 @@ async function buscarReceitas(req,res) {
   
 }
 
+// Busca receita por ingrediente e diz se ta completa ou parcial de acordo com os ingredientes
 async function buscarReceitaCompativel(req, res) {
   try {
     const { ingredientes } = req.body;
@@ -54,21 +55,22 @@ async function buscarReceitaCompativel(req, res) {
 
     const resultado = await receitaRepositorio.buscarReceitaCompativel(ingredientes);
 
-    if (
-      (!resultado.completas || resultado.completas.length === 0) &&
-      (!resultado.parciais || resultado.parciais.length === 0)
-    ) {
+    if (resultado.completas.length === 0 && resultado.parciais.length === 0) {
       return res.status(404).json({ mensagem: "Nenhuma receita compatível encontrada" });
     }
 
-    res.status(200).json({
+    const completasDetalhadas = await receitaRepositorio.buscarReceitasComIngredientes(resultado.completas);
+    const parciaisDetalhadas = await receitaRepositorio.buscarReceitasComIngredientes(resultado.parciais);
+
+    return res.status(200).json({
       mensagem: "Receitas compatíveis encontradas",
-      receitas_completas: resultado.completas,
-      receitas_parciais: resultado.parciais
+      receitas_completas: completasDetalhadas,
+      receitas_parciais: parciaisDetalhadas
     });
+
   } catch (erro) {
     console.error("Erro ao buscar receitas compatíveis:", erro);
-    res.status(500).json({ mensagem: "Erro ao buscar receitas compatíveis" });
+    return res.status(500).json({ mensagem: "Erro ao buscar receitas compatíveis" });
   }
 }
 
