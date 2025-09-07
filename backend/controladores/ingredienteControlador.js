@@ -52,7 +52,7 @@ async function editarIngrediente(req, res) {
   try {
     const { id, nome } = req.body;
 
-    const ingredienteAtualizado = await ingredienteRepositorio.editar(id, nome);
+    const ingredienteAtualizado = await ingredienteRepositorio.editarIngrediente(id, nome);
 
     if (!ingredienteAtualizado) {
       return res.status(404).json({ mensagem: "Ingrediente não encontrado" });
@@ -75,7 +75,7 @@ async function deletarIngrediente(req, res) {
   try {
     const { id } = req.params;
 
-    const ingredienteDeletado = await ingredienteRepositorio.deletar(id);
+    const ingredienteDeletado = await ingredienteRepositorio.deletarIngrediente(id);
 
     if (!ingredienteDeletado) {
       return res.status(404).json({ mensagem: "ingrediente não encontrado" });
