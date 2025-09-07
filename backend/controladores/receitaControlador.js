@@ -4,17 +4,17 @@ const receitaRepositorio = require('../repositorios/receitaRepositorio');
 // Cadastro de receitas
 async function cadastrarReceita(req, res) {
   try {
-    const { usuarioId, titulo, descricao, receitas } = req.body;
+    const { usuarioId, titulo, descricao, ingredientes } = req.body;
 
     if (!usuarioId || !titulo || !descricao) {
-      return res.status(400).json({ mensagem: "Usuário, título, descrição e receitas são obrigatórios" });
+      return res.status(400).json({ mensagem: "Usuário, título, descrição e ingredintes são obrigatórios" });
     }
 
-    if (!receitas || receitas.length === 0) {
-      return res.status(400).json({ mensagem: "A receita deve conter ao menos um receita" });
+    if (!ingredientes || ingredientes.length === 0) {
+      return res.status(400).json({ mensagem: "A receita deve conter ao menos um ingrediente" });
     }
 
-    const novaReceita = await receitaRepositorio.cadastrarReceita(usuarioId, titulo, descricao, receitas);
+    const novaReceita = await receitaRepositorio.cadastrarReceita(usuarioId, titulo, descricao, ingredientes);
 
     res.status(201).json({
       mensagem: "Receita cadastrada com sucesso",
@@ -75,7 +75,8 @@ async function buscarReceitaCompativel(req, res) {
 // Editar receita (titulo e descricao)
 async function editarReceita(req, res) {
   try {
-    const { id, titulo, descricao } = req.body;
+    const {id} =req.params;
+    const { titulo, descricao } = req.body;
 
     const receitaAtualizada = await receitaRepositorio.editarReceita(id, titulo, descricao);
 
