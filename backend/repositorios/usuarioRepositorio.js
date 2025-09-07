@@ -1,4 +1,4 @@
-const db = require('../configuracao/db');
+const db = require('../configuracao/conexaoBD');
 const Usuario = require('../modelos/Usuario');
 
 // Cadastra o usuário e retorna usuario

@@ -1,4 +1,4 @@
-const db = require('../configuracao/db');
+const db = require('../configuracao/conexaoBD');
 const Ingrediente = require('../modelos/Ingrediente');
 
 // Cadastra o ingrediente e retorna
