@@ -7,15 +7,15 @@ const receitaControlador = require('../controladores/receitaControlador');
 router.post('/', receitaControlador.cadastrarReceita);
 
 // Busca de receitas
-router.get('/', ingredienteControlador.buscarReceita);
+router.get('/', receitaControlador.buscarReceita);
 
 // Busca de receitas compativeis
-router.get('/receitasCompativeis', ingredienteControlador.buscarReceitaCompativel);
+router.get('/receitasCompativeis', receitaControlador.buscarReceitaCompativel);
 
 // Editar receita
-router.put('/:id', ingredienteControlador.editarReceita);
+router.put('/:id', receitaControlador.editarReceita);
 
 // Deletar receita
-router.delete('/:id', ingredienteControlador.deletarReceita);
+router.delete('/:id', receitaControlador.deletarReceita);
 
 module.exports = router;

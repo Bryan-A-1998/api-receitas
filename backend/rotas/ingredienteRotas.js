@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const usuarioControlador = require('../controladores/ingredienteControlador');
+const ingredienteControlador = require('../controladores/ingredienteControlador');
 
 // Cadastro de ingrediente
 router.post('/', ingredienteControlador.cadastrarIngrediente);
