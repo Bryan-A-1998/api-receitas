@@ -1,0 +1,159 @@
+
+Testar conexão com o servidor
+
+Método: GET
+
+URL: http://localhost:7000/api
+
+Espera-se: "API de Receitas funcionando!"
+
+TESTE OK
+--------------------------------------------------------
+
+Usuários
+  Cadastrar usuário
+
+POST http://localhost:7000/api/usuarios
+
+{
+  "nome": "Bryan Alex",
+  "email": "bryan@teste.com",
+  "senha": "teste123"
+}
+
+TESTE OK
+--------------------------------------------------------
+
+  Login do usuário
+
+POST http://localhost:7000/api/usuarios/login
+
+{
+  "email": "bryan@teste.com",
+  "senha": "teste123"
+}
+
+TESTE OK
+--------------------------------------------------------
+
+  Editar usuário
+
+PUT http://localhost:7000/api/usuarios/1
+
+{
+  "nome": "Bryan Atualizado",
+  "senha": "nova123"
+}
+
+TESTE OK
+--------------------------------------------------------
+
+  Deletar usuário
+
+DELETE http://localhost:7000/api/usuarios/1
+
+TESTE OK
+--------------------------------------------------------
+
+Ingredientes
+  Cadastrar ingrediente
+
+POST http://localhost:7000/api/ingredientes
+
+{
+  "nome": "Alho"
+}
+
+TESTE OK
+--------------------------------------------------------
+
+  Buscar ingredientes
+
+GET http://localhost:7000/api/ingredientes
+
+TESTE OK
+--------------------------------------------------------
+
+  Editar ingrediente
+
+PUT http://localhost:7000/api/ingredientes/1
+
+{
+  "nome": "Alho Triturado"
+}
+
+--------------------------------------------------------
+
+  Deletar ingrediente
+
+DELETE http://localhost:7000/api/ingredientes/1
+
+--------------------------------------------------------
+
+Receitas
+  Cadastrar receita
+
+POST http://localhost:7000/api/receitas
+
+{
+  "usuarioId": 1,
+  "titulo": "Sopa de Legumes",
+  "descricao": "Sopa com vários legumes",
+  "ingredientes": [
+    {
+      "id": 2,
+      "quantidade": 200,
+      "unidade": "g"
+    },
+    {
+      "id": 3,
+      "quantidade": 1,
+      "unidade": "un"
+    }
+  ]
+}
+
+Os IDs dos ingredientes devem existir no banco antes de testar essa rota.
+
+--------------------------------------------------------
+
+  Buscar todas as receitas
+
+GET http://localhost:7000/api/receitas
+
+--------------------------------------------------------
+
+  Buscar receitas compatíveis com ingredientes
+
+POST http://localhost:7000/api/receitas/receitasCompativeis
+
+{
+  "ingredientes": [2, 3]
+}
+
+--------------------------------------------------------
+
+  Editar receita
+
+PUT http://localhost:7000/api/receitas/1
+
+{
+  "id": 1,
+  "titulo": "Sopa de Legumes Atualizada",
+  "descricao": "Receita modificada"
+}
+
+--------------------------------------------------------
+
+  Deletar receita
+
+DELETE http://localhost:7000/api/receitas/1
+
+--------------------------------------------------------
+
+Testar conexão com o PostgreSQL diretamente
+
+Como executar :
+node testarConexao.js
+
+TESTE OK
