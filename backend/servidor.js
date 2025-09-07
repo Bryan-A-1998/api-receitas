@@ -19,10 +19,10 @@ app.get('/api', (req, res) => {
 app.use('/api/usuarios',usuarioRotas);
     
     //rotas ingrediente
-app.use('/api/ingredientes',usuarioRotas);
+app.use('/api/ingredientes',ingredienteRotas);
 
     //rotas receita
-app.use('/api/receitas',usuarioRotas);
+app.use('/api/receitas',receitaRotas);
 
 const PORTA = 7000;
 app.listen(PORTA, () => console.log(`Servidor rodando na porta ${PORTA}`));
