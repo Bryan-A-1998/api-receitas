@@ -82,12 +82,14 @@ PUT http://localhost:7000/api/ingredientes/1
   "nome": "Alho Triturado"
 }
 
+TESTE OK
 --------------------------------------------------------
 
   Deletar ingrediente
 
 DELETE http://localhost:7000/api/ingredientes/1
 
+TESTE OK
 --------------------------------------------------------
 
 Receitas
@@ -113,14 +115,16 @@ POST http://localhost:7000/api/receitas
   ]
 }
 
-Os IDs dos ingredientes devem existir no banco antes de testar essa rota.
+Os IDs dos ingredientes e do usuario devem existir no banco antes de testar essa rota.
 
+TESTE OK
 --------------------------------------------------------
 
   Buscar todas as receitas
 
 GET http://localhost:7000/api/receitas
 
+TESTE OK
 --------------------------------------------------------
 
   Buscar receitas compatíveis com ingredientes
@@ -131,6 +135,7 @@ POST http://localhost:7000/api/receitas/receitasCompativeis
   "ingredientes": [2, 3]
 }
 
+TESTE OK
 --------------------------------------------------------
 
   Editar receita
@@ -143,12 +148,14 @@ PUT http://localhost:7000/api/receitas/1
   "descricao": "Receita modificada"
 }
 
+TESTE OK
 --------------------------------------------------------
 
   Deletar receita
 
 DELETE http://localhost:7000/api/receitas/1
 
+TESTE OK
 --------------------------------------------------------
 
 Testar conexão com o PostgreSQL diretamente
