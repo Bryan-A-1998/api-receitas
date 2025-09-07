@@ -33,7 +33,7 @@ async function buscarIngredientePorNome(nome) {
 // Editar ingrediente
 async function editarIngrediente(id, nome) {
     const resultado = await db.query(
-        "UPDATE ingredientes SET nome = $1 WHERE id = $2 RETURNING *",
+        "UPDATE ingredientes SET nome = $1 WHERE id = $2 RETURNING id, nome",
         [nome, id]
     );
     const row = resultado.rows[0]
