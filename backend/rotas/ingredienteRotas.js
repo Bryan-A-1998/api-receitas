@@ -6,7 +6,7 @@ const ingredienteControlador = require('../controladores/ingredienteControlador'
 router.post('/', ingredienteControlador.cadastrarIngrediente);
 
 // Busca de ingrediente
-router.get('/', ingredienteControlador.buscarIngrediente);
+router.get('/', ingredienteControlador.buscarIngredientes);
 
 // Editar ingrediente
 router.put('/:id', ingredienteControlador.editarIngrediente);

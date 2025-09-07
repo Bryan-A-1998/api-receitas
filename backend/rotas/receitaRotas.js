@@ -7,7 +7,7 @@ const receitaControlador = require('../controladores/receitaControlador');
 router.post('/', receitaControlador.cadastrarReceita);
 
 // Busca de receitas
-router.get('/', receitaControlador.buscarReceita);
+router.get('/', receitaControlador.buscarReceitas);
 
 // Busca de receitas compativeis
 router.post('/receitasCompativeis', receitaControlador.buscarReceitaCompativel);
