@@ -67,7 +67,7 @@ async function buscarReceitas() {
   return Array.from(receitasMap.values());
 }
 
-// Função auxiliar para verificar ingredientes
+// Função auxiliar para verificar ingredientes nas receitas
 async function buscarReceitasComIngredientes(receitaIds) {
   if (!receitaIds.length) return [];
 
