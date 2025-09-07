@@ -107,13 +107,13 @@ async function deletar(req, res) {
 // Listar usuarios
 async function listar(req, res) {
   try{
-    const listaUsuarios = await usuarioRepositorio.listarUsuarios();
+    const Usuarios = await usuarioRepositorio.listarUsuarios();
 
-    if(!listaUsuarios) {
+    if(!Usuarios) {
       return res.status(404).json({mensagem : "Usuarios não encontrados"});
     }
 
-    return res.status(200).json({ mensagem: "Lista de usuarios", listaUsuarios })
+    return res.status(200).json({ mensagem: "Lista de usuarios", Usuarios })
   }catch (erro) {
     console.error("Erro ao listar usuarios:", erro);
     res.status(500).json({ mensagem: "Erro ao listar usuarios"})
