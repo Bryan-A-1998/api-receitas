@@ -22,6 +22,9 @@ POST http://localhost:7000/api/usuarios
 }
 
 TESTE OK
+TESTE SEM UM CAMPO OK (RETORNO CAMPOS OBRIGATORIOS)
+TESTE MESMO EMAIL OK (RETORNO EMAIL JA CADASTRADO)
+
 --------------------------------------------------------
 
   Login do usuário
@@ -34,9 +37,20 @@ POST http://localhost:7000/api/usuarios/login
 }
 
 TESTE OK
+TESTE SENHA ERRADA OK (RETORNO SENHA INCORRETA)
+TESTE SEM UM CAMPO RETORNO OK (RETORNO CAMPOS OBRIGATORIOS)
+
 --------------------------------------------------------
 
-  Editar usuário
+  Buscar usuarios
+
+GET http://localhost:7000/api/usuarios
+
+TESTE OK
+
+--------------------------------------------------------
+
+  Editar usuário (NÃO PODE EDITAR O EMAIL)
 
 PUT http://localhost:7000/api/usuarios/1
 
@@ -46,6 +60,8 @@ PUT http://localhost:7000/api/usuarios/1
 }
 
 TESTE OK
+TESTE ID INEXISTENTE OK (RETORNA USUARIO NÃO ENCONTRADO)
+
 --------------------------------------------------------
 
   Deletar usuário
@@ -53,6 +69,8 @@ TESTE OK
 DELETE http://localhost:7000/api/usuarios/1
 
 TESTE OK
+TESTE ID INEXISTENTE OK (RETORNA USUARIO NÃO ENCONTRADO)
+
 --------------------------------------------------------
 
 Ingredientes
@@ -65,6 +83,9 @@ POST http://localhost:7000/api/ingredientes
 }
 
 TESTE OK
+TESTE SEM NOME OK (RETORNA CAMPO BRIGATORIO NOME)
+TESTE MESMO INGREDIENTE OK (RETORNA INGREDIENTE JA CADASTRADO)
+
 --------------------------------------------------------
 
   Buscar ingredientes
@@ -72,6 +93,7 @@ TESTE OK
 GET http://localhost:7000/api/ingredientes
 
 TESTE OK
+
 --------------------------------------------------------
 
   Editar ingrediente
@@ -83,6 +105,8 @@ PUT http://localhost:7000/api/ingredientes/1
 }
 
 TESTE OK
+TESTE ID INEXISTENTE OK (RETORNA INGREDIENTE NÃO ENCONTRADO)
+
 --------------------------------------------------------
 
   Deletar ingrediente
@@ -90,6 +114,8 @@ TESTE OK
 DELETE http://localhost:7000/api/ingredientes/1
 
 TESTE OK
+TESTE ID INEXISTENTE OK (RETORNA INGREDIENTE NÃO ENCONTRADO)
+
 --------------------------------------------------------
 
 Receitas
@@ -118,6 +144,9 @@ POST http://localhost:7000/api/receitas
 Os IDs dos ingredientes e do usuario devem existir no banco antes de testar essa rota.
 
 TESTE OK
+TESTE CAMPOS FALTANTES OK (RETORNO ITENS OBRIGATORIOS)
+TESTE SEM INGREDIENTES OK (RETORNO AO MENOS UM INGREDIENTE OBRIGATORIO)
+
 --------------------------------------------------------
 
   Buscar todas as receitas
@@ -125,6 +154,7 @@ TESTE OK
 GET http://localhost:7000/api/receitas
 
 TESTE OK
+
 --------------------------------------------------------
 
   Buscar receitas compatíveis com ingredientes
@@ -136,6 +166,7 @@ POST http://localhost:7000/api/receitas/receitasCompativeis
 }
 
 TESTE OK
+
 --------------------------------------------------------
 
   Editar receita
@@ -149,6 +180,7 @@ PUT http://localhost:7000/api/receitas/1
 }
 
 TESTE OK
+
 --------------------------------------------------------
 
   Deletar receita
@@ -156,6 +188,7 @@ TESTE OK
 DELETE http://localhost:7000/api/receitas/1
 
 TESTE OK
+
 --------------------------------------------------------
 
 Testar conexão com o PostgreSQL diretamente
