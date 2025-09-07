@@ -10,7 +10,7 @@ router.post('/', receitaControlador.cadastrarReceita);
 router.get('/', receitaControlador.buscarReceita);
 
 // Busca de receitas compativeis
-router.get('/receitasCompativeis', receitaControlador.buscarReceitaCompativel);
+router.post('/receitasCompativeis', receitaControlador.buscarReceitaCompativel);
 
 // Editar receita
 router.put('/:id', receitaControlador.editarReceita);
